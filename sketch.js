@@ -1,7 +1,9 @@
 var dog,sadDog,happyDog, database;
 var foodS,foodStock;
 var addFood;
-var foodObj, timeStore;
+var foodObj;
+var lastFed, fedTime;
+var fed;
 
 
 
@@ -37,9 +39,9 @@ function setup()
   addFood.position(800,95);
   addFood.mousePressed(addFoods);
 
-  eat = createButton("Feed the Dog");
-  eat.position(700,95);
-  eat.mousePressed(feedDog);
+  fed = createButton("Feed the Dog");
+  fed.position(700,95);
+  fed.mousePressed(feedDog);
 
 }
 
@@ -57,12 +59,13 @@ function draw()
 
    //write code to display text lastFed time here
 
+  fill("white");
   textSize(30);
-    if(hour>=12){
+    if(lastFed>=12){
         text("last feed : "+ lastFed%12 + " PM", 100,200);
-       }else if(hour==0){
+       }else if(lastFed==0){
         text("last feed : 12 AM",100,200);
-       }else if(hour<12){
+       }else{
         text("last feed : "+ lastFed%12 + " AM", 100,200);
        }
  
@@ -89,10 +92,12 @@ function feedDog()
 {
   dog.addImage(happyDog);
 
-  if(foodObj.getFoodStock()<= 0){
-    foodObj.updateFoodStock(foodObj.getFoodStock()*0);
+  var food_stock = foodObj.getFoodStock()
+  
+  if(food_stock <= 0){
+    foodObj.updateFoodStock(food_stock*0);
   }else{
-    foodObj.updateFoodStock(foodObj.getFoodStock()-1);
+    foodObj.updateFoodStock(food_stock-1);
   }
   
   database.ref('/').update({
@@ -106,21 +111,5 @@ function feedDog()
   //write code here to update food stock and last fed time
 
 
-async function lastTime()
-{
-  var response = await fetch("https://worldtimeapi.org/api/timezone/Asia/Kolkata");
-  var responseJSON = await response.json();
-  var datetime = responseJSON.datatime;
-  var hour = datetime.slice(11, 13);
 
-  database.ref('/').update({
-    FeedTime: hour
-  })
 
-  
-}
-
-function trp()
-{
-  console.log("hello")
-}
