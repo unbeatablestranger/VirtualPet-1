@@ -62,11 +62,11 @@ function draw()
   fill("white");
   textSize(30);
     if(lastFed>=12){
-        text("last feed : "+ lastFed%12 + " PM", 100,200);
+        text("last feed : "+ lastFed%12 + " PM", 100,100);
        }else if(lastFed==0){
-        text("last feed : 12 AM",100,200);
+        text("last feed : 12 AM",100,100);
        }else{
-        text("last feed : "+ lastFed%12 + " AM", 100,200);
+        text("last feed : "+ lastFed%12 + " AM", 100,100);
        }
  
   drawSprites();
